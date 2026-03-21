@@ -1,0 +1,79 @@
+erDiagram
+    USER {
+        uuid id PK
+        string email
+        string name
+        string primary_role "Hauptrolle (z.B. Senior Dev)"
+        datetime created_at
+    }
+
+    PROJECT {
+        uuid id PK
+        string title
+        string description
+        string industry
+        date start_date
+        date end_date "Nullable (falls noch aktiv)"
+        datetime created_at
+    }
+
+    PROJECT_MEMBER {
+        uuid id PK
+        uuid user_id FK
+        uuid project_id FK
+        string project_role "Rolle in genau diesem Projekt (z.B. Scrum Master)"
+        datetime joined_at
+    }
+
+    PROJECT_SKILL {
+        uuid id PK
+        uuid project_id FK
+        uuid skill_id FK
+        boolean is_core_tech "Ist es Hauptbestandteil (true) oder Randnotiz (false)?"
+    }
+
+    SKILL {
+        uuid id PK
+        string name
+        string category
+        uuid parent_skill_id FK
+    }
+
+    USER_SKILL {
+        uuid id PK
+        uuid user_id FK
+        uuid skill_id FK
+        int current_level
+        int total_xp
+        boolean is_verified
+    }
+
+    SKILL_EVENT {
+        uuid id PK
+        uuid user_skill_id FK
+        string source
+        int xp_added
+        string description
+        datetime created_at
+    }
+
+    DOCUMENT {
+        uuid id PK
+        uuid user_id FK
+        string filename
+        string raw_text
+        datetime parsed_at
+    }
+
+    %% Core Relationships
+    USER ||--o{ USER_SKILL : "has"
+    SKILL ||--o{ USER_SKILL : "assigned_to"
+    SKILL ||--o{ SKILL : "is_parent_of"
+    USER_SKILL ||--o{ SKILL_EVENT : "gains_xp_from"
+    USER ||--o{ DOCUMENT : "uploads"
+    
+    %% New Project Relationships
+    PROJECT ||--o{ PROJECT_MEMBER : "has_team_member"
+    USER ||--o{ PROJECT_MEMBER : "works_on"
+    PROJECT ||--o{ PROJECT_SKILL : "uses_tech"
+    SKILL ||--o{ PROJECT_SKILL : "used_in_project"
