@@ -33,10 +33,14 @@ jspm_packages/
 .env.test
 .env.local
 
+# Prisma generated client
+backend/src/generated/
+
 # Next.js build output
 .next
 out
 build
+dist
 
 # OS generated files
 .DS_Store
