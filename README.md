@@ -20,7 +20,7 @@ ArborStack is not another static HR spreadsheet. It is a dynamic, privacy-first 
 ## 📦 Quickstart (Docker Compose)
 *Coming soon! ArborStack will be deployable with a single command:*
 ```bash
-git clone [https://github.com/yourusername/arborstack.git](https://github.com/yourusername/arborstack.git)
+git clone [https://github.com/MarkusDanilow/arborstack.git](https://github.com/MarkusDanilow/arborstack.git)
 cd arborstack
 docker-compose up -d
 ```
