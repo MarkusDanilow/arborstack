@@ -1,37 +1,42 @@
-graph TD
-    %% Styling
-    classDef frontend fill:#3b82f6,stroke:#1e40af,stroke-width:2px,color:#fff;
-    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
-    classDef db fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff;
-    classDef ai fill:#8b5cf6,stroke:#5b21b6,stroke-width:2px,color:#fff;
+---
+config:
+  layout: fixed
+  theme: forest
+---
+flowchart TB
+ subgraph Frontend["Frontend Layer - Next.js & React Flow"]
+        UI_Dash["Dashboard view"]
+        UI_Tree["My Skill Tree view"]
+        UI_Proj["Projects & Roles view"]
+        UI_Team["Team Directory view"]
+        UI_Set["Settings & Integrations"]
+  end
+ subgraph Backend["Backend Layer - Node.js & Fastify"]
+        API_Gate["Fastify API Gateway"]
+        Auth["Auth & Integrations Logic"]
+        XP_Calc["XP Engine & Event Manager"]
+        Parser_Ctrl["PDF AI Parser Controller"]
+  end
+ subgraph AI_Layer["Local AI Layer - Docker"]
+        Ollama["Ollama Inference Server"]
+        LLM["Llama 3 / Mistral Model"]
+  end
+ subgraph Database["Persistence Layer - PostgreSQL"]
+        DB[("Relational DB + Prisma ORM")]
+  end
+    UI_Dash --> API_Gate
+    UI_Tree --> API_Gate
+    UI_Proj --> API_Gate
+    UI_Team --> API_Gate
+    UI_Set --> API_Gate
+    API_Gate --> Auth & XP_Calc & Parser_Ctrl
+    Parser_Ctrl -- "1. Sends Raw Text" --> Ollama
+    Ollama -- "2. Prompting" --> LLM
+    LLM -- "3. Structured JSON" --> Ollama
+    Ollama -- "4. Returns Parsed Skills" --> Parser_Ctrl
+    Auth --> DB
+    XP_Calc --> DB
+    Parser_Ctrl --> DB
 
-    %% Components
-    User((👨‍💻 User / HR))
-    
-    subgraph "Frontend (Next.js / React Flow)"
-        UI[Web Dashboard UI]:::frontend
-        Graph[Skill-Tree Visualisierung]:::frontend
-    end
-    
-    subgraph "Backend (Node.js / Fastify)"
-        API[REST / GraphQL API]:::backend
-        Parser[PDF/Word Parser Service]:::backend
-        Logic[XP & Skill Logic Engine]:::backend
-    end
-    
-    subgraph "Data & AI Layer (Local)"
-        DB[(PostgreSQL DB)]:::db
-        Ollama[Ollama Server / Llama 3]:::ai
-    end
-
-    %% Connections
-    User -->|Uploads CV / Views Skills| UI
-    UI -->|Renders Node Data| Graph
-    UI <-->|JSON Requests| API
-    
-    API -->|Sends raw text| Parser
-    Parser -->|Prompts for JSON extraction| Ollama
-    Ollama -->|Returns structured JSON| Parser
-    
-    API <-->|Reads/Writes| DB
-    Logic <-->|Updates Levels| DB
+    classDef default fill:#18181b,stroke:#27272a,stroke-width:2px,color:#f4f4f5
+    classDef highlight fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f4f4f5
