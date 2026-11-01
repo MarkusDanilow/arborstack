@@ -1,3 +1,6 @@
+Noe: This is the vision for the tool.
+---
+
 # 🌳 ArborStack
 
 **The Self-Hosted, Event-Driven Skill Graph for Engineering Teams.**
