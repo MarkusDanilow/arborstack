@@ -1,5 +1,4 @@
-Noe: This is the vision for the tool.
----
+Note: This is the vision for the tool.
 
 # 🌳 ArborStack
 
